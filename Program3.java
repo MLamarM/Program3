@@ -1,22 +1,18 @@
 
-// Program 3 – Sentiment Analysis
+// Program 3
 // Name: Lamar
 // Date: 10/11/2026
-// CS201 – Problem Solving & Programming II
+// CS201R
 
-// This program reads sentiment.txt, loads word sentiment values,
-// processes 8 review files, computes original sentiment,
-// formats reviews to <= 80 characters per line,
-// and generates more-positive and more-negative versions.
 
 import java.io.*;
 import java.util.*;
 
 public class Program3 {
 
-    // -----------------------------
-    // Data structure for sentiment words
-    // -----------------------------
+    
+    // for sentiment words
+   
     static class WordSentiment {
         String word;     // lowercase word
         double value;    // sentiment value
@@ -27,13 +23,12 @@ public class Program3 {
         }
     }
 
-    // -----------------------------
+   
     // Data structure for review words
-    // -----------------------------
     static class ReviewWord {
-        String original;     // original word with punctuation
+        String original;     // original word
         String stripped;     // lowercase, punctuation removed
-        double sentiment;    // sentiment value
+        double sentiment;   
 
         ReviewWord(String o, String s, double v) {
             this.original = o;
@@ -115,9 +110,9 @@ public class Program3 {
         out.close();
     }
 
-    // -----------------------------
+    
     // Read sentiment.txt
-    // -----------------------------
+    
     static void readSentimentList(String filename,
                                   List<WordSentiment> all,
                                   List<WordSentiment> pos,
@@ -148,9 +143,9 @@ public class Program3 {
         br.close();
     }
 
-    // -----------------------------
+  
     // Read entire file into a string
-    // -----------------------------
+    
     static String readWholeFile(String filename) throws Exception {
         BufferedReader br = new BufferedReader(new FileReader(filename));
         StringBuilder sb = new StringBuilder();
@@ -164,16 +159,14 @@ public class Program3 {
         return sb.toString().trim();
     }
 
-    // -----------------------------
-    // Strip punctuation + lowercase
-    // -----------------------------
+    
     static String stripWord(String w) {
-        // Remove leading punctuation
+        // remove leading punctuation
         while (w.length() > 0 && !Character.isLetterOrDigit(w.charAt(0))) {
             w = w.substring(1);
         }
 
-        // Remove trailing punctuation
+        // remove trailing punctuation
         while (w.length() > 0 && !Character.isLetterOrDigit(w.charAt(w.length() - 1))) {
             w = w.substring(0, w.length() - 1);
         }
@@ -181,9 +174,9 @@ public class Program3 {
         return w.toLowerCase();
     }
 
-    // -----------------------------
-    // Find sentiment value for a word
-    // -----------------------------
+   
+    // find sentiment value for a word
+   
     static double findSentiment(String word, List<WordSentiment> all) {
         for (WordSentiment ws : all) {
             if (ws.word.equals(word)) return ws.value;
@@ -191,9 +184,9 @@ public class Program3 {
         return 0.0; // neutral if not found
     }
 
-    // -----------------------------
-    // Compute total sentiment
-    // -----------------------------
+    
+    // get total 
+   
     static double computeSentiment(List<ReviewWord> words) {
         double total = 0;
         for (ReviewWord rw : words) {
@@ -202,9 +195,9 @@ public class Program3 {
         return total;
     }
 
-    // -----------------------------
-    // Format review to <= 80 chars per line
-    // -----------------------------
+    
+    // Formatting
+   
     static void format80(String[] tokens, PrintWriter out) {
         StringBuilder line = new StringBuilder();
 
@@ -224,9 +217,9 @@ public class Program3 {
         if (line.length() > 0) out.println(line.toString());
     }
 
-    // -----------------------------
+    
     // Replace negative words with positive ones
-    // -----------------------------
+   
     static void makeMorePositive(List<ReviewWord> words,
                                  List<WordSentiment> pos,
                                  PrintWriter out) {
@@ -254,9 +247,9 @@ public class Program3 {
         }
     }
 
-    // -----------------------------
+   
     // Replace positive words with negative ones
-    // -----------------------------
+
     static void makeMoreNegative(List<ReviewWord> words,
                                  List<WordSentiment> neg,
                                  PrintWriter out) {
@@ -266,7 +259,7 @@ public class Program3 {
 
         for (ReviewWord rw : words) {
 
-            // Positive enough?
+            // Positive?
             if (rw.sentiment > 1.0 && !neg.isEmpty()) {
 
                 WordSentiment replacement = neg.get(r.nextInt(neg.size()));
